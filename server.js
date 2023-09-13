@@ -6,7 +6,7 @@ const WebSocket = require("ws");
 const mqttBrokerUrl = "mqtt://38.242.254.49:1883";
 const mqttClient = mqtt.connect(mqttBrokerUrl);
 
-// Create an HTTP server
+//HTTP server
 const server = http.createServer((req, res) => {
   res.writeHead(200, { "Content-Type": "text/plain" });
   res.end("WebSocket server is running.");
@@ -14,18 +14,17 @@ const server = http.createServer((req, res) => {
 
 const port = 3001;
 
-// Attach the WebSocket server to the HTTP server
+// Attaching the WebSocket server to the HTTP server
 const wss = new WebSocket.Server({ server });
 
 wss.on("connection", (ws) => {
   console.log("WebSocket connection established");
 
-  // Subscribe to the MQTT topic
+  // Subscribing to the MQTT topic
   mqttClient.subscribe("/test/+/events");
 
-  // Handle MQTT messages and send them to the WebSocket
+  // send MQTT message to the WebSocket
   mqttClient.on("message", (topic, message) => {
-    // Send the MQTT message to the WebSocket client
     ws.send(message.toString());
   });
 
