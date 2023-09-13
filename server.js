@@ -23,7 +23,7 @@ wss.on("connection", (ws) => {
   // Subscribing to the MQTT topic
   mqttClient.subscribe("/test/+/events");
 
-  // send MQTT message to the WebSocket
+  // sending MQTT message to the WebSocket
   mqttClient.on("message", (topic, message) => {
     ws.send(message.toString());
   });
